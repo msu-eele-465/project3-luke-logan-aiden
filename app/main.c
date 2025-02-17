@@ -1,5 +1,8 @@
 #include <msp430.h>
 #include <stdbool.h>
+#include "keypad.h"
+
+int output;
 
 int main(void)
 {
@@ -12,5 +15,6 @@ int main(void)
 
     while(true)
     {
+        output = _read_keypad_char();
     }
 }
