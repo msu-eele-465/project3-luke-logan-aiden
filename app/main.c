@@ -2,7 +2,8 @@
 #include <stdbool.h>
 #include "keypad.h"
 
-int output;
+// constatns
+bool locked = true;
 
 int main(void)
 {
@@ -13,8 +14,13 @@ int main(void)
     // previously configure port settings
     PM5CTL0 &= ~LOCKLPM5;
 
+    while(locked)
+    {
+        locked = check_unlock();
+    }
+
     while(true)
     {
-        output = _read_keypad_char();
+        _read_keypad_char();
     }
 }
