@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include <stdbool.h>
 #include "keypad.h"
+#include "status-led.h"
 
 // constatns
 bool locked = true;
@@ -24,3 +25,5 @@ int main(void)
         _read_keypad_char();
     }
 }
+
+
