@@ -19,7 +19,7 @@ RGB: members are the RGB Values
 
 // Constants defitions
 
-#define _BITS0TO3 7
+#define _BITS0TO2 7
 
 // Structures definition
 struct RGB
@@ -34,14 +34,16 @@ struct RGB
 // RGB value definitions
 
 struct RGB locked_rgb = {196, 62, 29};
+struct RGB unlocking_rgb = {196, 146, 29};
+struct RGB unlocked_rgb = {29, 162, 196};
 
 // Function defitions
 
 void init_status_led_timer(struct RGB* init_rgb)
 {
     // Set RGB pins as outputs
-    P2DIR |= _BITS0TO3;                 // set P2.0-3 to outputs
-    P2OUT &= ~_BITS0TO3;                // clear outputs P2.0-3
+    P2DIR |= _BITS0TO2;                 // set P2.0-3 to outputs
+    P2OUT &= ~_BITS0TO2;                // clear outputs P2.0-3
     
     // Set up timer
     TB3CTL |= TBCLR;                    // clear timers & dividers
@@ -51,28 +53,36 @@ void init_status_led_timer(struct RGB* init_rgb)
     TB3CTL |= CNTL_0;                   // 16-bit clock length
 
     // set compares 0-3
-    TB3CCR0 = 1020;                     // set period to approx 1 ms
+    TB3CCR0 = 50*255 + 1;               // set period to approx 1 ms
     TB3CCTL0 |= CCIE;                   // enable compare interrupt
     TB3CCTL0 &= ~CCIFG;                 // clear interrupt flag
 
-    TB3CCR1 = 4*(init_rgb->red);        // set CCR1 to red duty cycle
+    TB3CCR1 = 50*(init_rgb->red);        // set CCR1 to red duty cycle
     TB3CCTL1 |= CCIE;                   // enable compaxxsre interrupt
     TB3CCTL1 &= ~CCIFG;                 // clear interrupt flag
 
-    TB3CCR2 = 4*(init_rgb->green);     // set CCR2 to green duty cycle
+    TB3CCR2 = 50*(init_rgb->green);      // set CCR2 to green duty cycle
     TB3CCTL2 |= CCIE;                   // enable compare interrupt
     TB3CCTL2 &= ~CCIFG;                 // clear interrupt flag
 
-    TB3CCR3 = 4*(init_rgb->blue);       // set CCR3 to blue duty cycle
+    TB3CCR3 = 50*(init_rgb->blue);      // set CCR3 to blue duty cycle
     TB3CCTL3 |= CCIE;                   // enable compare interrupt
     TB3CCTL3 &= ~CCIFG;                 // clear interrupt flag
     return;
 }
 
+
+void set_status_rgb(struct RGB* color)
+{
+    TB3CCR1 = 4*(color->red);           // set CCR1 to red duty cycle
+    TB3CCR2 = 4*(color->green);         // set CCR2 to green duty cycle
+    TB3CCR3 = 4*(color->blue);          // set CCR3 to blue duty cycle
+}
+
 void status_led_timer_ccr0(void)
 {
     // set all colors high
-    P2OUT |= _BITS0TO3;
+    P2OUT |= _BITS0TO2;
     TB3CCTL0 &= ~CCIFG;                 // clear interrupt flag
     return;
 }
