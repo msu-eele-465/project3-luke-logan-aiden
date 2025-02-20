@@ -17,13 +17,14 @@ int main(void)
 
     init_status_led_timer(&locked_rgb);     // setup led status timer
     __enable_interrupt();                   // Enable Maskable IQR
-    set_status_rgb(&locked_rgb);
-/*
+
     while(locked)
     {
         locked = check_unlock();
     }
-*/
+
+    set_status_rgb(&unlocked_rgb);
+
     while(true)
     {
         _read_keypad_char();
