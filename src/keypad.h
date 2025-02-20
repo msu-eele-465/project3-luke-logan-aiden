@@ -22,6 +22,7 @@ Funtions:
 
 #include <msp430.h>
 #include <stdbool.h>
+#include "status-led.h"
 
 
 // Constants definitions
@@ -62,8 +63,8 @@ inline int _read_keypad_rows(void)
 {
     int row_read = 0;
 
-    P3DIR |= COLUMN_MASK;               // P3.0-3 outputs
-    P3DIR &= ~ROW_MASK;                 // P3.4-7 inputs
+    P3DIR |= COLUMN_MASK;               // P3.4-7 outputs
+    P3DIR &= ~ROW_MASK;                 // P3.0-3 inputs
     P3REN |= ROW_MASK;                  // enable resistors
     P3OUT &= ~ROW_MASK;                 // make resistors pull down
     P3OUT |= COLUMN_MASK;               // outputs set to 1
@@ -154,11 +155,16 @@ inline bool check_unlock(void)
         if (keystroke == code[i])
         {
             i++;
+            set_status_rgb(&unlocking_rgb);
         }
         else if (keystroke == 'E') {}
-        else if (keystroke == code[i-1]){}
+        else if (keystroke == code[i-1])
+        {
+            set_status_rgb(&unlocking_rgb);
+        }
         else 
         {
+            set_status_rgb(&locked_rgb);
             return true;
         }
     }
