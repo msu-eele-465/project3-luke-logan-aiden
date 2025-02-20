@@ -3,14 +3,15 @@
 
 int main(void)
 {
-    // Stop watchdog timer
-    WDTCTL = WDTPW | WDTHOLD;               // Stop watchdog timer
     
-    // Disable the GPIO power-on default high-impedance mdoe to activate
-    // previously configure port settings
-    PM5CTL0 &= ~LOCKLPM5;
+    WDTCTL = WDTPW | WDTHOLD;               // Stop watchdog timer
+    PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mdoe to activate
+    //pattern_static();
+    //pattern_toggle();
+    pattern_up_counter();
+    
+    // Main loop
+    while(1){}
 
-    while(true)
-    {
-    }
+    return 0;
 }
