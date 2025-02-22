@@ -8,7 +8,9 @@ int main(void)
     PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mdoe to activate
     //pattern_static();
     //pattern_toggle();
-    pattern_up_counter();
+    //pattern_up_counter();
+    pattern_in_out();
+
     
     // Main loop
     while(1){}
