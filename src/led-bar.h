@@ -7,11 +7,14 @@ This file is a header that includes all declarations for using the LED Bar. All 
 Pins: uC: P1.i <-> i+1 LED Bar
 
 Constants:
-    - 
-    - 
+    - integer counter
 
 Functions:
-    -
+    - _init_LED_bar()   to initialize port1 pins 
+    - __pattern0()      not present here, hardcoded in led_pattern.c
+    - __pattern1()      toggle all LEDs
+    - __pattern2()      256 bit binary up counter 
+    - __pattern3()      in and out pattern
 
 */
 
@@ -52,6 +55,7 @@ inline int __pattern2(void) {
 }
 
 inline int __pattern3(void) {
+    int counter = 0;
     counter++;
 
     switch(counter) {
@@ -93,6 +97,15 @@ inline int __pattern3(void) {
 
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+}
+
+int inline __pattern4() {
+    int counter1 = 256;
+    counter1--;
+    P1OUT = counter1;
+    
+    TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+
 }
 
 #endif 7
