@@ -10,7 +10,8 @@ int main(void)
     //pattern_toggle();
     //pattern_up_counter();
     //pattern_in_out();
-    pattern_down_counter();
+    //pattern_down_counter();
+    pattern_rotate_left();
 
     
     // Main loop
