@@ -68,13 +68,29 @@ void pattern_up_counter() { // Pattern 2
 
 }
 
-/*
-void pattern_rotate_left() { // Pattern 3
-    static uint8_t val = 1;
-    val = (val << 1) | (val >> 7);
-    P2OUT = val;
+void pattern_in_out() {
+    _init_LED_bar();
+
+    P1OUT &= ~BIT0; // Initialize starting LEDs
+    P1OUT &= ~BIT1;
+    P1OUT &= ~BIT2;
+    P1OUT &= ~BIT3;
+    P1OUT &= ~BIT4;
+    P1OUT &= ~BIT5;
+    P1OUT &= ~BIT6;
+    P1OUT &= ~BIT7;
+
+    // Setup Timer
+    TB0CTL |= TBCLR;    // clear timers & dividers
+    TB0CTL |= TBSSEL__ACLK; // Source = ACLK
+    TB0CTL |= MC__UP;   // Mode=UP
+    TB0CCR0 = 32769;    // CCR0=32769
+
+    // Setup Timer Compare IRQ
+    TB0CCTL0 &= ~CCIFG;   // Clear CCR0 Flag
+    TB0CCTL0 |= CCIE;     // Enable TB0 CCR0 Overflow IRQ
+    __enable_interrupt();   // Enable Maskable IRQs
 }
-*/
 
 /*
     // If able to:
@@ -96,37 +112,45 @@ void pattern_rotate_left() { // Pattern 3
 #pragma vector = TIMER0_B0_VECTOR
 __interrupt void ISR_TB0_CCR0(void)
 {
-    
     counter++;
-    P1OUT = counter;
-    /*
-    if(counter == 255) {
-        return 0;
+
+    switch(counter) {
+        case 1: P1OUT |= BIT3;
+                P1OUT |= BIT4;
+                break;
+        case 2: P1OUT &= ~BIT3;
+                P1OUT &= ~BIT4;
+                P1OUT |= BIT2;
+                P1OUT |= BIT5;
+                break;
+        case 3: P1OUT &= ~BIT2;
+                P1OUT &= ~BIT5;
+                P1OUT |= BIT1;
+                P1OUT |= BIT6;
+                break;
+        case 4: P1OUT &= ~BIT1;
+                P1OUT &= ~BIT6;
+                P1OUT |= BIT0;
+                P1OUT |= BIT7;
+                break;
+        case 5: P1OUT &= ~BIT0;
+                P1OUT &= ~BIT7;
+                P1OUT |= BIT1;
+                P1OUT |= BIT6;
+                break;
+        case 6: P1OUT &= ~BIT1;
+                P1OUT &= ~BIT6;
+                P1OUT |= BIT2;
+                P1OUT |= BIT5;
+                break;
+        case 7: P1OUT &= ~BIT2;
+                P1OUT &= ~BIT5;
+                P1OUT |= BIT3;
+                P1OUT |= BIT4;
+                counter = 0;
+                break;
     }
-    if((counter |= BIT0) != 0){
-        P1OUT |= BIT0;
-    }
-    if((counter |= BIT1) != 0){
-        P1OUT |= BIT1;
-    }
-    if((counter |= BIT2) != 0){
-        P1OUT |= BIT2;
-    }
-    if((counter |= BIT3) != 0){
-        P1OUT |= BIT3;
-    }
-    if((counter |= BIT4) != 0){
-        P1OUT |= BIT4;
-    }
-    if((counter |= BIT5) != 0){
-        P1OUT |= BIT5;
-    }
-    if((counter |= BIT6) != 0){
-        P1OUT |= BIT6;
-    }
-    if((counter |= BIT7) != 0){
-        P1OUT |= BIT7;
-    }
-    */
+
+    
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
 }
