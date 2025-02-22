@@ -18,7 +18,8 @@ Functions:
     - __pattern3()      256 bit binary down counter 
     - __pattern4()      in and out pattern
     - __pattern5()      rotate left pattern
-    - __pattern5()      rotate 0 right pattern
+    - __pattern6()      rotate 0 right pattern
+    - __pattern7()      fill left
 
 */
 
@@ -147,6 +148,7 @@ int inline __pattern5() {
 }
 
 int inline __pattern6() {
+    int counter = 0;
     counter++;
     switch(counter) {
         case 1: P1OUT &= ~BIT1;
@@ -179,4 +181,35 @@ int inline __pattern6() {
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
 }
 
-#endif 7
+int inline __pattern7() {
+    counter++;
+    switch(counter) {
+        case 1: P1OUT |= BIT6;
+                break;
+        case 2: P1OUT |= BIT5;
+                break;
+        case 3: P1OUT |= BIT4;
+                break;
+        case 4: P1OUT |= BIT3;
+                break;
+        case 5: P1OUT |= BIT2;
+                break;
+        case 6: P1OUT |= BIT1;
+                break;
+        case 7: P1OUT |= BIT0;
+                break;
+        case 8: P1OUT &= ~BIT0;
+                P1OUT &= ~BIT1;
+                P1OUT &= ~BIT2;
+                P1OUT &= ~BIT3;
+                P1OUT &= ~BIT4;
+                P1OUT &= ~BIT5;
+                P1OUT &= ~BIT6;
+                P1OUT |= BIT7;
+                counter = 0;
+    }
+    
+    TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+}
+
+#endif 
