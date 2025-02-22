@@ -108,4 +108,38 @@ int inline __pattern4() {
 
 }
 
+int inline __pattern5() {
+    int counter = 0;
+    counter++;
+    switch(counter) {
+        case 1: P1OUT |= BIT7;
+                P1OUT &= ~BIT0;
+                break;
+        case 2: P1OUT |= BIT6;
+                P1OUT &= ~BIT7;
+                break;
+        case 3: P1OUT |= BIT5;
+                P1OUT &= ~BIT6;
+                break;
+        case 4: P1OUT |= BIT4;
+                P1OUT &= ~BIT5;
+                break;
+        case 5: P1OUT |= BIT3;
+                P1OUT &= ~BIT4;
+                break;
+        case 6: P1OUT |= BIT2;
+                P1OUT &= ~BIT3;
+                break;
+        case 7: P1OUT |= BIT1;
+                P1OUT &= ~BIT2;
+                break;
+        case 8: P1OUT |= BIT0;
+                P1OUT &= ~BIT2;
+                counter = 0;
+                break;
+    }
+    
+    TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+}
+
 #endif 7
