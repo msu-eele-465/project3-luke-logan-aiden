@@ -116,11 +116,32 @@ void pattern_down_counter() {
     TB0CCTL0 |= CCIE;     // Enable TB0 CCR0 Overflow IRQ
     __enable_interrupt();   // Enable Maskable IRQs
 }
+
+void pattern_rotate_left() {
+    _init_LED_bar();
+
+    P1OUT &= ~BIT0; // Initialize starting LEDs
+    P1OUT &= ~BIT1;
+    P1OUT &= ~BIT2;
+    P1OUT &= ~BIT3;
+    P1OUT &= ~BIT4;
+    P1OUT &= ~BIT5;
+    P1OUT &= ~BIT6;
+    P1OUT &= ~BIT7;
+
+    // Setup Timer
+    TB0CTL |= TBCLR;    // clear timers & dividers
+    TB0CTL |= TBSSEL__ACLK; // Source = ACLK
+    TB0CTL |= MC__UP;   // Mode=UP
+    TB0CCR0 = 32769;    // CCR0=32769
+
+    // Setup Timer Compare IRQ
+    TB0CCTL0 &= ~CCIFG;   // Clear CCR0 Flag
+    TB0CCTL0 |= CCIE;     // Enable TB0 CCR0 Overflow IRQ
+    __enable_interrupt();   // Enable Maskable IRQs
+}
 /*
     // If able to:
-
-    // Pattern 5
-
 
     // Pattern 6
 
@@ -133,8 +154,34 @@ void pattern_down_counter() {
 #pragma vector = TIMER0_B0_VECTOR
 __interrupt void ISR_TB0_CCR0(void)
 {
-    counter1--;
-    P1OUT = counter1;
+    counter++;
+    switch(counter) {
+        case 1: P1OUT |= BIT7;
+                P1OUT &= ~BIT0;
+                break;
+        case 2: P1OUT |= BIT6;
+                P1OUT &= ~BIT7;
+                break;
+        case 3: P1OUT |= BIT5;
+                P1OUT &= ~BIT6;
+                break;
+        case 4: P1OUT |= BIT4;
+                P1OUT &= ~BIT5;
+                break;
+        case 5: P1OUT |= BIT3;
+                P1OUT &= ~BIT4;
+                break;
+        case 6: P1OUT |= BIT2;
+                P1OUT &= ~BIT3;
+                break;
+        case 7: P1OUT |= BIT1;
+                P1OUT &= ~BIT2;
+                break;
+        case 8: P1OUT |= BIT0;
+                P1OUT &= ~BIT1;
+                counter = 0;
+                break;
+    }
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
 }
