@@ -8,13 +8,17 @@ Pins: uC: P1.i <-> i+1 LED Bar
 
 Constants:
     - integer counter
+    - integer down 256 counter1
 
 Functions:
     - _init_LED_bar()   to initialize port1 pins 
     - __pattern0()      not present here, hardcoded in led_pattern.c
     - __pattern1()      toggle all LEDs
-    - __pattern2()      256 bit binary up counter 
-    - __pattern3()      in and out pattern
+    - __pattern2()      256 bit binary up counter
+    - __pattern3()      256 bit binary down counter 
+    - __pattern4()      in and out pattern
+    - __pattern5()      rotate left pattern
+    - __pattern5()      rotate 0 right pattern
 
 */
 
@@ -135,6 +139,39 @@ int inline __pattern5() {
                 break;
         case 8: P1OUT |= BIT0;
                 P1OUT &= ~BIT2;
+                counter = 0;
+                break;
+    }
+    
+    TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+}
+
+int inline __pattern6() {
+    counter++;
+    switch(counter) {
+        case 1: P1OUT &= ~BIT1;
+                P1OUT |= BIT0;
+                break;
+        case 2: P1OUT &= ~BIT2;
+                P1OUT |= BIT1;
+                break;
+        case 3: P1OUT &= ~BIT3;
+                P1OUT |= BIT2;
+                break;
+        case 4: P1OUT &= ~BIT4;
+                P1OUT |= BIT3;
+                break;
+        case 5: P1OUT &= ~BIT5;
+                P1OUT |= BIT4;
+                break;
+        case 6: P1OUT &= ~BIT6;
+                P1OUT |= BIT5;
+                break;
+        case 7: P1OUT &= ~BIT7;
+                P1OUT |= BIT6;
+                break;
+        case 8: P1OUT &= ~BIT0;
+                P1OUT |= BIT7;
                 counter = 0;
                 break;
     }
