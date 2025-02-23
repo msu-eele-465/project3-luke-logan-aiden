@@ -13,7 +13,7 @@ int main(void)
     //pattern_down_counter();               // Pattern 4
     //pattern_rotate_left();                // Pattern 5
     //pattern_0_rotate_right();             // Pattern 6
-    pattern_fill_left();                    // Pattern 7
+    pattern_fill_left();                  // Pattern 7
 
     
     // Main loop
