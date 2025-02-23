@@ -49,6 +49,8 @@ inline int __pattern1(void) {
     P1OUT ^= BIT5;  // Toggle LED 6
     P1OUT ^= BIT6;  // Toggle LED 7
     P1OUT ^= BIT7;  // Toggle LED 8
+
+    TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
 }
 
 inline int __pattern2(void) {
@@ -139,7 +141,7 @@ int inline __pattern5() {
                 P1OUT &= ~BIT2;
                 break;
         case 8: P1OUT |= BIT0;
-                P1OUT &= ~BIT2;
+                P1OUT &= ~BIT1;
                 counter = 0;
                 break;
     }
@@ -182,6 +184,7 @@ int inline __pattern6() {
 }
 
 int inline __pattern7() {
+    int counter = 0;
     counter++;
     switch(counter) {
         case 1: P1OUT |= BIT6;
