@@ -29,6 +29,14 @@ Functions:
 #include <msp430.h>
 #include <stdbool.h>
 
+inline int _decrease_speed(void) {
+        // if "A" is pressed decrease cycle speed by 0.25s
+}
+
+inline int _increase_speed(void) {
+        // if "B" is pressed increase cycle speed by 0.25s
+}
+
 inline int _init_LED_bar(void) {
     P1DIR |= BIT0; // Set Outputs
     P1DIR |= BIT1;
