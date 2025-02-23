@@ -60,7 +60,7 @@ void pattern_up_counter() { // Pattern 2
     TB0CTL |= TBCLR;    // clear timers & dividers
     TB0CTL |= TBSSEL__ACLK; // Source = ACLK
     TB0CTL |= MC__UP;   // Mode=UP
-    TB0CCR0 = 32769;    // CCR0=32769
+    TB0CCR0 = 16384;    // CCR0=16384
 
     // Setup Timer Compare IRQ
     TB0CCTL0 &= ~CCIFG;   // Clear CCR0 Flag
@@ -85,7 +85,7 @@ void pattern_in_out() {
     TB0CTL |= TBCLR;    // clear timers & dividers
     TB0CTL |= TBSSEL__ACLK; // Source = ACLK
     TB0CTL |= MC__UP;   // Mode=UP
-    TB0CCR0 = 32769;    // CCR0=32769
+    TB0CCR0 = 16384;    // CCR0=16384
 
     // Setup Timer Compare IRQ
     TB0CCTL0 &= ~CCIFG;   // Clear CCR0 Flag
@@ -109,7 +109,7 @@ void pattern_down_counter() {
     TB0CTL |= TBCLR;    // clear timers & dividers
     TB0CTL |= TBSSEL__ACLK; // Source = ACLK
     TB0CTL |= MC__UP;   // Mode=UP
-    TB0CCR0 = 32769;    // CCR0=32769
+    TB0CCR0 = 8192;    // CCR0=8192
 
     // Setup Timer Compare IRQ
     TB0CCTL0 &= ~CCIFG;   // Clear CCR0 Flag
@@ -133,7 +133,7 @@ void pattern_rotate_left() {
     TB0CTL |= TBCLR;    // clear timers & dividers
     TB0CTL |= TBSSEL__ACLK; // Source = ACLK
     TB0CTL |= MC__UP;   // Mode=UP
-    TB0CCR0 = 32769;    // CCR0=32769
+    TB0CCR0 = 49153;    // CCR0=49153
 
     // Setup Timer Compare IRQ
     TB0CCTL0 &= ~CCIFG;   // Clear CCR0 Flag
@@ -181,7 +181,7 @@ void pattern_fill_left() {
     TB0CTL |= TBCLR;    // clear timers & dividers
     TB0CTL |= TBSSEL__ACLK; // Source = ACLK
     TB0CTL |= MC__UP;   // Mode=UP
-    TB0CCR0 = 32769;    // CCR0=32769
+    TB0CCR0 = 16384;    // CCR0=16384
 
     // Setup Timer Compare IRQ
     TB0CCTL0 &= ~CCIFG;   // Clear CCR0 Flag
