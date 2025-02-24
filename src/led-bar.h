@@ -23,21 +23,28 @@ Functions:
 
 */
 
-#ifndef _LED-BAR_H
-#define _LED-BAR_H
+#ifndef _LED_BAR_H
+#define _LED_BAR_H
 
 #include <msp430.h>
 #include <stdbool.h>
 
+// constants
+#define QUATER_SECOND 8192
+
+// globals
 int counter = 0;
+unsigned int period = 32768;
 
 inline void _decrease_speed(void) {
         // if "A" is pressed decrease cycle speed by 0.25s
+        period += 8192;
         return;
 }
 
 inline void _increase_speed(void) {
         // if "B" is pressed increase cycle speed by 0.25s
+        period -= 8192;
         return;
 }
 
@@ -314,9 +321,11 @@ inline int pattern_decide(int prev_pattern, int pattern)
         switch (pattern)
         {
             case 0:
+                TB0CCR0 = period;
                 __pattern0();
                 break;
             case 1:
+                TB0CCR0 = period;
                 P1OUT |= BIT0; // Set values 
                 P1OUT &= ~BIT1;
                 P1OUT |= BIT2;
@@ -328,18 +337,23 @@ inline int pattern_decide(int prev_pattern, int pattern)
                 __pattern1();
                 break;
             case 2:
+               TB0CCR0 = period >> 1;
                 __pattern2();
                 break;
             case 3:
+                TB0CCR0 = period >> 1;
                 __pattern3();
                 break;
             case 4:
+                TB0CCR0 = period >> 2;
                 __pattern4();
                 break;
             case 5:
+                TB0CCR0 = (int)(period*1.5);
                 __pattern5();
                 break;
             case 6:
+                TB0CCR0 = period >> 1;
                 P1OUT &= ~BIT0; // Set Outputs
                 P1OUT |= BIT1;
                 P1OUT |= BIT2;
@@ -351,6 +365,7 @@ inline int pattern_decide(int prev_pattern, int pattern)
                 __pattern6();
                 break;
             case 7:
+                TB0CCR0 = period;
                 __pattern7();
                 break;
 

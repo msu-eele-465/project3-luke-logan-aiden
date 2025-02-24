@@ -24,6 +24,7 @@ Funtions:
 #include <msp430.h>
 #include <stdbool.h>
 #include "status-led.h"
+#include "led-bar.h"
 
 
 // Constants definitions
@@ -183,6 +184,16 @@ inline int input_decide(void)
     if (input != 'E')
     {
         output = input - '0';
+    }
+    else if (input == 'A')
+    {
+        _increase_speed();
+        output = 10;
+    }
+    else if (input == 'D') 
+    {
+        _decrease_speed();
+        output = 10;
     }
     else
     {
