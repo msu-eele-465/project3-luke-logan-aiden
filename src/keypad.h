@@ -14,6 +14,7 @@ Funtions:
     - _read_keypad_columns: This funtion returns an integer whose second nibble has 1 high bit corresponding to the column read.
     - _read_keypad_rows: This function returns an integer whose first nibble has 1 high bit correspondign to the row read.
     - _read_keypad_char: This function returns a char that represents the one pressed on the keypad. the char E means no button is being pressed.
+    - input_decide: this function decided what to do based on the input from the keypad.
 
 */
 
@@ -171,6 +172,24 @@ inline bool check_unlock(void)
 
     return false;
 
+}
+
+inline int input_decide(void)
+{
+    int output;
+
+    char input = _read_keypad_char();
+
+    if (input != 'E')
+    {
+        output = input - '0';
+    }
+    else
+    {
+        output = 10;
+    }
+
+    return output;
 }
 
 

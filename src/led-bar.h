@@ -29,15 +29,19 @@ Functions:
 #include <msp430.h>
 #include <stdbool.h>
 
-inline int _decrease_speed(void) {
+int counter = 0;
+
+inline void _decrease_speed(void) {
         // if "A" is pressed decrease cycle speed by 0.25s
+        return;
 }
 
-inline int _increase_speed(void) {
+inline void _increase_speed(void) {
         // if "B" is pressed increase cycle speed by 0.25s
+        return;
 }
 
-inline int _init_LED_bar(void) {
+inline void init_LED_bar(void) {
     P1DIR |= BIT0; // Set Outputs
     P1DIR |= BIT1;
     P1DIR |= BIT2;
@@ -46,9 +50,46 @@ inline int _init_LED_bar(void) {
     P1DIR |= BIT5;
     P1DIR |= BIT6;
     P1DIR |= BIT7;
+
+    // Setup Timer
+    TB0CTL |= TBCLR;    // clear timers & dividers
+    TB0CTL |= TBSSEL__ACLK; // Source = ACLK
+    TB0CTL |= MC__UP;   // Mode=UP
+    TB0CCR0 = 32769;    // CCR0=32769
+
+    // Setup Timer Compare IRQ
+    TB0CCTL0 &= ~CCIFG;   // Clear CCR0 Flag
+    TB0CCTL0 |= CCIE;     // Enable TB0 CCR0 Overflow IRQ
+    return;
 }
 
-inline int __pattern1(void) {
+inline void clear_led_bar(void)
+{
+    P1OUT &= ~BIT0;  // Toggle LED 1
+    P1OUT &= ~BIT1;  // Toggle LED 2
+    P1OUT &= ~BIT2;  // Toggle LED 3
+    P1OUT &= ~BIT3;  // Toggle LED 4
+    P1OUT &= ~BIT4;  // Toggle LED 5
+    P1OUT &= ~BIT5;  // Toggle LED 6
+    P1OUT &= ~BIT6;  // Toggle LED 7
+    P1OUT &= ~BIT7;  // Toggle LED 8
+}
+
+inline void __pattern0(void) { // Pattern 0
+
+    P1OUT |= BIT0; // Set values 
+    P1OUT &= ~BIT1;
+    P1OUT |= BIT2;
+    P1OUT &= ~BIT3;
+    P1OUT |= BIT4;
+    P1OUT &= ~BIT5;
+    P1OUT |= BIT6;
+    P1OUT &= ~BIT7;
+
+    TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+    return;
+}
+inline void __pattern1(void) {
     P1OUT ^= BIT0;  // Toggle LED 1
     P1OUT ^= BIT1;  // Toggle LED 2
     P1OUT ^= BIT2;  // Toggle LED 3
@@ -59,19 +100,19 @@ inline int __pattern1(void) {
     P1OUT ^= BIT7;  // Toggle LED 8
 
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+    return;
 }
 
-inline int __pattern2(void) {
-    int counter = 0;
-    counter++; 
+inline void __pattern2(void) {
+    (counter)++; 
     P1OUT = counter;
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+    return;
 }
 
-inline int __pattern3(void) {
-    int counter = 0;
-    counter++;
+inline void __pattern3(void) {
+    (counter)++;
 
     switch(counter) {
         case 1: P1OUT |= BIT3;
@@ -112,20 +153,21 @@ inline int __pattern3(void) {
 
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+    return;
 }
 
-int inline __pattern4() {
-    int counter1 = 256;
-    counter1--;
-    P1OUT = counter1;
+inline void __pattern4(void) {
+    //int counter1 = 256; do this somewhere else
+    (counter)--;
+    P1OUT = counter;
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+    return;
 
 }
 
-int inline __pattern5() {
-    int counter = 0;
-    counter++;
+inline void __pattern5(void) {
+    (counter)++;
     switch(counter) {
         case 1: P1OUT |= BIT7;
                 P1OUT &= ~BIT0;
@@ -155,11 +197,11 @@ int inline __pattern5() {
     }
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+    return;
 }
 
-int inline __pattern6() {
-    int counter = 0;
-    counter++;
+inline void __pattern6(void) {
+    (counter)++;
     switch(counter) {
         case 1: P1OUT &= ~BIT1;
                 P1OUT |= BIT0;
@@ -189,11 +231,11 @@ int inline __pattern6() {
     }
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+    return;
 }
 
-int inline __pattern7() {
-    int counter = 0;
-    counter++;
+int inline __pattern7(void) {
+    (counter)++;
     switch(counter) {
         case 1: P1OUT |= BIT6;
                 break;
@@ -221,6 +263,84 @@ int inline __pattern7() {
     }
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
+    return;
+}
+
+inline int pattern_decide(int prev_pattern, int pattern)
+{
+    if (pattern == prev_pattern)
+    {
+        switch (pattern)
+        {
+            case 0:
+                __pattern0();
+                break;
+            case 1:
+                __pattern1();
+                break;
+            case 2:
+                __pattern2();
+                break;
+            case 3:
+                __pattern3();
+                break;
+            case 4:
+                __pattern4();
+                break;
+            case 5:
+                __pattern5();
+                break;
+            case 6:
+                __pattern6();
+                break;
+            case 7:
+                __pattern7();
+                break;
+
+        }
+    }
+    else 
+    {
+        clear_led_bar();
+        if (pattern == 4)
+        {
+            counter = 256;
+        }
+        else 
+        {
+            counter = 0;
+        }
+
+        switch (pattern)
+        {
+            case 0:
+                __pattern0();
+                break;
+            case 1:
+                __pattern1();
+                break;
+            case 2:
+                __pattern2();
+                break;
+            case 3:
+                __pattern3();
+                break;
+            case 4:
+                __pattern4();
+                break;
+            case 5:
+                __pattern5();
+                break;
+            case 6:
+                __pattern6();
+                break;
+            case 7:
+                __pattern7();
+                break;
+
+        }
+    }
+    return pattern;
 }
 
 #endif 
