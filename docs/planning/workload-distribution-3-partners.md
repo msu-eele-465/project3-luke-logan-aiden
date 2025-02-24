@@ -6,30 +6,30 @@ You are encouraged to support each other with an overall goal of successfully co
 
 You will submit this form at least twice.  Once before the project starts.  This is to document your intention.  Then, again at completion.  This is to document any deviation from the initial plan.  
 
-| Workload                                                              | Total | Partner 1 | Partner 2 | Partner 3 |
-|-----------------------------------------------------------------------|-------|-----------|-----------|-----------|
-|Introduction                                                           | 1.5   |           |           |           |
-|Circuit diagram                                                        | 1.5   |           |           |           |
-|Main loop flowchart                                                    | 1.5   |           |           |           |
-|System architecture diagram                                            | 1.5   |           |           |           |
-|Professional demo                                                      | 3     |           |           |           |
-|System starts in a locked state                                        | 0.5   |           |           |           |
-|Unlock code works and is 4-digits long                                 | 4     |           |           |           |
-|LED is set to correct color when locked                                | 0.5   |           |           |           |
-|LED is set to correct color when being unlocked                        | 0.5   |           |           |           |
-|LED is set to correct color when unlocked                              | 0.5   |           |           |           |
-|When the system is locked, all LEDs are off                            | 0.5   |           |           |           |
-|When the system is unlockd, LEDs are off until a user selects a pattern| 0.5   |           |           |           |
-|When the selected pattern is the same, the pattern restarts            | 0.5   |           |           |           |
-|When a new pattern is selected, the pattern must start within 1 s      | 2     |           |           |           |
-|Previously selected pattern starts where it left off                   | 0.5   |           |           |           |
-|LED pattern transition period is changeable                            | 2     |           |           |           |
-|LED pattern 0                                                          | 0.5   |           |           |           |
-|LED pattern 1                                                          | 0.5   |           |           |           |
-|LED pattern 2                                                          | 0.5   |           |           |           |
-|LED pattern 3                                                          | 0.5   |           |           |           |
-|Color-cycling LED is off when the system is locked                     | 0.5   |           |           |           |
-|LED continuously cycles through all hues when the system is unlocked   | 4.5   |           |           |           |
-|Pressing “*” on the keypad increases the cycle rate                    | 1     |           |           |           |
-|Pressing “#” on the keypad decreases the cycle rate                    | 1     |           |           |           |
-|                                                                       | 30    |           |           |           |
+| Workload                                                               | Total |   Logan   |   Aiden   |   Luke    |
+|------------------------------------------------------------------------|-------|-----------|-----------|-----------|
+|Introduction                                                            | 1.5   |    0.5    |    0.5    |    0.5    |
+|Circuit diagram                                                         | 1.5   |           |    1.5    |           |
+|Main loop flowchart                                                     | 1.5   |           |           |    1.5    |
+|System architecture diagram                                             | 1.5   |    0.5    |    0.5    |    0.5    |
+|Professional demo                                                       | 3     |     1     |     1     |     1     |
+|System starts in a locked state                                         | 0.5   |   0.5     |           |           |
+|Unlock code works and is 4-digits long                                  | 4     |    4      |           |           |
+|LED is set to correct color when locked                                 | 0.5   |           |    0.5    |           |
+|LED is set to correct color when being unlocked                         | 0.5   |           |    0.5    |           |
+|LED is set to correct color when unlocked                               | 0.5   |           |    0.5    |           |
+|When the system is locked, all LEDs are off                             | 0.5   |           |           |    0.5    |
+|When the system is unlocked, LEDs are off until a user selects a pattern| 0.5   |           |           |    0.5    |
+|When the selected pattern is the same, the pattern restarts             | 0.5   |    0.5    |           |           |
+|When a new pattern is selected, the pattern must start within 1 s       | 2     |    1      |           |    1      |
+|Previously selected pattern starts where it left off                    | 0.5   |           |           |    0.5    |
+|LED pattern transition period is changeable                             | 2     |           |           |    2      |
+|LED pattern 0                                                           | 0.5   |           |           |    0.5    |
+|LED pattern 1                                                           | 0.5   |           |           |    0.5    |
+|LED pattern 2                                                           | 0.5   |           |           |    0.5    |
+|LED pattern 3                                                           | 0.5   |           |           |    0.5    |
+|Color-cycling LED is off when the system is locked                      | 0.5   |           |    0.5    |           |
+|LED continuously cycles through all hues when the system is unlocked    | 4.5   |           |    4.5    |           |
+|Pressing “*” on the keypad increases the cycle rate                     | 1     |     1     |           |           |
+|Pressing “#” on the keypad decreases the cycle rate                     | 1     |     1     |           |           |
+|                                                                        | 30    |    10     |    10     |     10    |
