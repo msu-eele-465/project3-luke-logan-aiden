@@ -1,5 +1,6 @@
 #include <msp430.h>
 #include <stdbool.h>
+#include <RGB.h>
 
 int main(void)
 {
@@ -13,4 +14,10 @@ int main(void)
     while(true)
     {
     }
+}
+
+
+#pragma vector = TIMER1_B0_VECTOR
+__interrupt void ISR_T1B0(void){
+    cycleColors();
 }
