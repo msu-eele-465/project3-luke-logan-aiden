@@ -6,8 +6,8 @@
 
 // constants
 bool locked = true;
-int pattern;
-volatile int prev_pattern = 0;
+int pattern = 10;
+volatile int prev_pattern = 10;
 int keypad_input;
 char test;
 

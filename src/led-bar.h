@@ -317,6 +317,14 @@ inline int pattern_decide(int prev_pattern, int pattern)
                 __pattern0();
                 break;
             case 1:
+                P1OUT |= BIT0; // Set values 
+                P1OUT &= ~BIT1;
+                P1OUT |= BIT2;
+                P1OUT &= ~BIT3;
+                P1OUT |= BIT4;
+                P1OUT &= ~BIT5;
+                P1OUT |= BIT6;
+                P1OUT &= ~BIT7;
                 __pattern1();
                 break;
             case 2:
@@ -332,6 +340,14 @@ inline int pattern_decide(int prev_pattern, int pattern)
                 __pattern5();
                 break;
             case 6:
+                P1OUT &= ~BIT0; // Set Outputs
+                P1OUT |= BIT1;
+                P1OUT |= BIT2;
+                P1OUT |= BIT3;
+                P1OUT |= BIT4;
+                P1OUT |= BIT5;
+                P1OUT |= BIT6;
+                P1OUT |= BIT7;
                 __pattern6();
                 break;
             case 7:
