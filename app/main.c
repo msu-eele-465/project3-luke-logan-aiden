@@ -4,8 +4,7 @@
 #include "status-led.h"
 #include "led-bar.h"
 
-// constants
-bool locked = true;
+// globals
 int pattern = 10;
 volatile int prev_pattern = 10;
 int keypad_input;
@@ -26,26 +25,28 @@ int main(void)
     init_status_led_timer(&locked_rgb);     // setup led status timer
     __enable_interrupt();                   // Enable Maskable IQR
 
-    while(locked)
-    {
-        locked = check_unlock();
-    }
-
-    set_status_rgb(&unlocked_rgb);
-
     while(1)
     {
-        test = _read_keypad_char();
-        keypad_input = input_decide();
-        if (keypad_input == 10)
+        
+        if (locked)
         {
-            pattern = prev_pattern;
+            TB0CCR0 = 32768;
+            locked = check_unlock();
         }
         else 
         {
-            pattern = keypad_input;
+            set_status_rgb(&unlocked_rgb);
+            test = _read_keypad_char();
+            keypad_input = input_decide();
+            if (keypad_input == 10)
+            {
+                pattern = prev_pattern;
+            }
+            else 
+            {
+                pattern = keypad_input;
+            }
         }
-
     }
 }
 
@@ -54,6 +55,10 @@ __interrupt void ISR_TB0_CCR0(void)
 {
     P6OUT ^= BIT6;
     prev_pattern = pattern_decide(prev_pattern, pattern);
+    if (locked)
+    {
+        lock_count++;
+    }
 }
 
 #pragma vector = TIMER3_B0_VECTOR

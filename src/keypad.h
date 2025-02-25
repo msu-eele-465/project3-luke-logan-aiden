@@ -26,6 +26,10 @@ Funtions:
 #include "status-led.h"
 #include "led-bar.h"
 
+// globals
+
+bool locked = true;
+int lock_count = 0;
 
 // Constants definitions
 
@@ -154,6 +158,12 @@ inline bool check_unlock(void)
     {
         char keystroke = _read_keypad_char();
 
+        if (lock_count > 5)
+        {
+            lock_count = 0;
+            return true;
+        }
+
         if (keystroke == code[i])
         {
             i++;
@@ -175,7 +185,7 @@ inline bool check_unlock(void)
 
 }
 
-inline int input_decide(void)
+inline int input_decide()
 {
     int output;
 
@@ -190,6 +200,11 @@ inline int input_decide(void)
     {
         _decrease_speed();
         output = 10;
+    }
+    else if (input == 'D') 
+    {
+        lock_count = 0;
+        locked = true;
     }
     else if (input != 'E') 
     {
