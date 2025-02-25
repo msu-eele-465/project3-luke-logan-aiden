@@ -1,0 +1,12 @@
+# Project 3 Keypad / LED Patterns / RGB LED
+
+The purpose of the project was to use a locking keypad to change patterns on an LED bar and make an RGB LED change hues. 
+
+
+
+
+The LED bar's design consists of functions in a header file that can be included in the main C file so each of the patterns can be called in the Interrupt Service Routine dependant on which button is pressed. 
+
+Below is each of the high-level flow charts for each of the functions in the led-bar.h header file: 
+
+![Picture](Proj3-Patterns-Combined.svg)
