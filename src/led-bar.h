@@ -20,6 +20,8 @@ Functions:
     - __pattern5()      rotate left pattern
     - __pattern6()      rotate 0 right pattern
     - __pattern7()      fill left
+    - _decrease_speed() decrease cycle speed by 0.25s
+    - _increase_speed() increase cycle speed by 0.25s
 
 */
 
@@ -31,10 +33,22 @@ Functions:
 
 inline int _decrease_speed(void) {
         // if "A" is pressed decrease cycle speed by 0.25s
+        /*
+        if _read_keypad_char == A {
+                TB0CCR0 -= 8192;
+        }
+        
+        */
 }
 
 inline int _increase_speed(void) {
         // if "B" is pressed increase cycle speed by 0.25s
+        /*
+        if _read_keypad_char == B {
+                TB0CCR0 += 8192;
+        }
+        
+        */
 }
 
 inline int _init_LED_bar(void) {
