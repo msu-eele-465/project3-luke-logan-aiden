@@ -12,10 +12,7 @@ The main C file consists of initializations of ports that we use and the unlock 
 ![Picture](Proj3-Circuit-Diagram.svg)
 
 
-
 The Keypad utilized a header file with functions that read the columns and rows of the keypad and which key was being pressed to compare against the correct passcode in order to decide whether or not to open. 
-
-
 
 
 The LED bar's design consists of functions in a header file that can be included in the main C file so each of the patterns can be called in the Interrupt Service Routine dependant on which button is pressed. 
