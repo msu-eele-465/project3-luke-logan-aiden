@@ -24,3 +24,7 @@ The LED bar's design consists of functions in a header file that can be included
 Below is each of the high-level flow charts for each of the functions in the led-bar.h header file: 
 
 ![Picture](Proj3-Patterns-Combined.svg)
+
+
+
+The second RGB LED cycles through the different hues possible while the program is running.
