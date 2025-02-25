@@ -17,6 +17,10 @@ int main(void)
     WDTCTL = WDTPW | WDTHOLD;               // Stop watchdog timer
     PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mdoe to activate
 
+    // init heartbeat LED
+    P6DIR |= BIT6;
+    P6OUT &= ~BIT6;
+
     init_LED_bar();
     clear_led_bar();
     init_status_led_timer(&locked_rgb);     // setup led status timer
@@ -47,6 +51,7 @@ int main(void)
 #pragma vector = TIMER0_B0_VECTOR
 __interrupt void ISR_TB0_CCR0(void)
 {
+    P6OUT ^= BIT6;
     prev_pattern = pattern_decide(prev_pattern, pattern);
 }
 
