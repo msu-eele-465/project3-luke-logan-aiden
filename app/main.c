@@ -45,6 +45,7 @@ int main(void)
         {
             pattern = keypad_input;
         }
+
     }
 }
 

@@ -181,19 +181,19 @@ inline int input_decide(void)
 
     char input = _read_keypad_char();
 
-    if (input != 'E')
-    {
-        output = input - '0';
-    }
-    else if (input == 'A')
+    if (input == 'A')
     {
         _increase_speed();
         output = 10;
     }
-    else if (input == 'D') 
+    else if (input == 'B')
     {
         _decrease_speed();
         output = 10;
+    }
+    else if (input != 'E') 
+    {
+        output = input - '0';
     }
     else
     {

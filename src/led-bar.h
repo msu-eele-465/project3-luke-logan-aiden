@@ -33,18 +33,25 @@ Functions:
 #define QUATER_SECOND 8192
 
 // globals
-int counter = 0;
+int counter[] = {0, 0, 0, 0, 256, 0, 0, 0};
 unsigned int period = 32768;
 
 inline void _decrease_speed(void) {
         // if "A" is pressed decrease cycle speed by 0.25s
+        if (period < 24577)
+        {
         period += 8192;
+        }
         return;
 }
 
 inline void _increase_speed(void) {
         // if "B" is pressed increase cycle speed by 0.25s
+        if (period > 8193)
+        {
         period -= 8192;
+        }
+        
         return;
 }
 
@@ -111,17 +118,17 @@ inline void __pattern1(void) {
 }
 
 inline void __pattern2(void) {
-    (counter)++; 
-    P1OUT = counter;
+    (counter[2])++; 
+    P1OUT = counter[2];
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
     return;
 }
 
 inline void __pattern3(void) {
-    (counter)++;
+    (counter[3])++;
 
-    switch(counter) {
+    switch(counter[3]) {
         case 1: P1OUT |= BIT3;
                 P1OUT |= BIT4;
                 break;
@@ -154,7 +161,7 @@ inline void __pattern3(void) {
                 P1OUT &= ~BIT5;
                 P1OUT |= BIT3;
                 P1OUT |= BIT4;
-                counter = 0;
+                counter[3] = 0;
                 break;
     }
 
@@ -165,8 +172,8 @@ inline void __pattern3(void) {
 
 inline void __pattern4(void) {
     //int counter1 = 256; do this somewhere else
-    (counter)--;
-    P1OUT = counter;
+    (counter[4])--;
+    P1OUT = counter[4];
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
     return;
@@ -174,8 +181,8 @@ inline void __pattern4(void) {
 }
 
 inline void __pattern5(void) {
-    (counter)++;
-    switch(counter) {
+    (counter[5])++;
+    switch(counter[5]) {
         case 1: P1OUT |= BIT7;
                 P1OUT &= ~BIT0;
                 break;
@@ -199,7 +206,7 @@ inline void __pattern5(void) {
                 break;
         case 8: P1OUT |= BIT0;
                 P1OUT &= ~BIT1;
-                counter = 0;
+                counter[5] = 0;
                 break;
     }
     
@@ -208,8 +215,8 @@ inline void __pattern5(void) {
 }
 
 inline void __pattern6(void) {
-    (counter)++;
-    switch(counter) {
+    (counter[6])++;
+    switch(counter[6]) {
         case 1: P1OUT &= ~BIT1;
                 P1OUT |= BIT0;
                 break;
@@ -233,7 +240,7 @@ inline void __pattern6(void) {
                 break;
         case 8: P1OUT &= ~BIT0;
                 P1OUT |= BIT7;
-                counter = 0;
+                counter[6] = 0;
                 break;
     }
     
@@ -241,9 +248,9 @@ inline void __pattern6(void) {
     return;
 }
 
-int inline __pattern7(void) {
-    (counter)++;
-    switch(counter) {
+inline void __pattern7(void) {
+    (counter[7])++;
+    switch(counter[7]) {
         case 1: P1OUT |= BIT6;
                 break;
         case 2: P1OUT |= BIT5;
@@ -266,7 +273,7 @@ int inline __pattern7(void) {
                 P1OUT &= ~BIT5;
                 P1OUT &= ~BIT6;
                 P1OUT |= BIT7;
-                counter = 0;
+                counter[7] = 0;
     }
     
     TB0CCTL0 &= ~CCIFG; //Clear CCR0 Flag
@@ -280,27 +287,35 @@ inline int pattern_decide(int prev_pattern, int pattern)
         switch (pattern)
         {
             case 0:
+                TB0CCR0 = period;
                 __pattern0();
                 break;
             case 1:
+                TB0CCR0 = period;
                 __pattern1();
                 break;
             case 2:
+                TB0CCR0 = period >> 1;
                 __pattern2();
                 break;
             case 3:
+                TB0CCR0 = period >> 1;
                 __pattern3();
                 break;
             case 4:
+                TB0CCR0 = period >> 2;
                 __pattern4();
                 break;
             case 5:
+                TB0CCR0 = (int)(period*1.5);
                 __pattern5();
                 break;
             case 6:
+                TB0CCR0 = period >> 1;
                 __pattern6();
                 break;
             case 7:
+                TB0CCR0 = period;
                 __pattern7();
                 break;
 
@@ -309,14 +324,6 @@ inline int pattern_decide(int prev_pattern, int pattern)
     else 
     {
         clear_led_bar();
-        if (pattern == 4)
-        {
-            counter = 256;
-        }
-        else 
-        {
-            counter = 0;
-        }
 
         switch (pattern)
         {
