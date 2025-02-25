@@ -35,10 +35,12 @@ Functions:
 #define _STATUS_LED_H
 
 #include <msp430.h>
+#include "RGB.h"
 
 // Constants defitions
 
 #define _BITS0TO2 7
+#define _BITS4TO6 112
 #define _PERIOD_MUL 4
 
 // Structures definition
@@ -103,6 +105,7 @@ void status_led_timer_ccr0(void)
 {
     // set all colors high
     P2OUT |= _BITS0TO2;
+    P4OUT |= _BITS4TO6;
     TB3CCTL0 &= ~CCIFG;                 // clear interrupt flag
     return;
 }
@@ -145,6 +148,18 @@ void TB3_ISR_call(int IV)
 
         case 6:
             _status_led_timer_ccr3();
+            return;
+
+        case 10:
+            TB3_CCR4_RED();
+            return;
+
+        case 12:
+            TB3_CCR5_GREEN();
+            return;
+
+        case 14:
+            TB3_CCR6_BLUE();
             return;
     }
 }

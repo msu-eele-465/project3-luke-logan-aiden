@@ -25,6 +25,7 @@ Funtions:
 #include <stdbool.h>
 #include "status-led.h"
 #include "led-bar.h"
+#include "RGB.h"
 
 // globals
 
@@ -205,6 +206,12 @@ inline int input_decide()
     {
         lock_count = 0;
         locked = true;
+    }
+    else if (input == '#'){
+        RGB_SpeedUp();
+    }
+    else if (input == '*'){
+        RGB_SlowDown();
     }
     else if (input != 'E') 
     {
