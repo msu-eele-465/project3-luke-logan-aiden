@@ -142,9 +142,9 @@ void pattern_rotate_left() {
 }
 
 void pattern_0_rotate_right() {
-_init_LED_bar();
+    _init_LED_bar();
 
-    P1OUT |= ~BIT0; // Initialize starting LEDs
+    P1OUT &= ~BIT0; // Initialize starting LEDs
     P1OUT |= BIT1;
     P1OUT |= BIT2;
     P1OUT |= BIT3;
