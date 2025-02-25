@@ -5,10 +5,14 @@ The purpose of the project was to use a locking keypad to change patterns on an 
 
 The main C file consists of initializations of ports that we use and the unlock function calls. Below is the flowchart of the main.c file: 
 
+
 ![Picture](Proj3-Main.svg)
 
 
-**Circuit Diagram**: 
+
+**Circuit Diagram**:
+
+
 ![Picture](Proj3-Circuit-Diagram.svg)
 
 
