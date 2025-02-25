@@ -3,6 +3,7 @@
 
 #define _BITS0TO2 7
 
+int _PERIOD_MUL = 4;
 int REDVAR = 255;
 int GREENVAR = 0;
 int BLUEVAR = 0;
@@ -49,7 +50,7 @@ void cycleColors(){
         if(REDVAR == 0){
             status = 2;
         }
-    }else if(satus == 2){
+    }else if(status == 2){
         BLUEVAR++;
         if(BLUEVAR == 255){
             status = 3;
@@ -69,5 +70,57 @@ void cycleColors(){
         if(BLUEVAR == 0){
             status = 0;
         }
+    }
+    TB3CCR6 = _PERIOD_MUL*BLUEVAR;      // set CCR6 to blue duty cycle
+    TB3CCR5 = _PERIOD_MUL*GREENVAR;     // set CCR5 to green duty cycle
+    TB3CCR4 = _PERIOD_MUL*REDVAR;       // set CCR4 red duty cycle
+}
+
+
+void TB3_CCR4_RED(){
+    P4OUT &= ~BIT0;
+    TB3CCTL1 &= ~CCIFG;                 // clear interrupt flag
+    return;
+}
+
+void TB3_CCR5_GREEN(){
+    P4OUT &= ~BIT1;
+    TB3CCTL1 &= ~CCIFG;                 // clear interrupt flag
+    return;
+}
+
+void TB3_CCR6_BLUE(){
+    P4OUT &= ~BIT2;
+    TB3CCTL1 &= ~CCIFG;                 // clear interrupt flag
+    return;
+}
+
+void TB3_ISR_call(int IV)
+{
+    switch (IV) 
+    {
+        case 2:
+            _status_led_timer_ccr1();
+            return;
+
+        case 4:
+            _status_led_timer_ccr2();
+            return;
+
+        case 6:
+            _status_led_timer_ccr3();
+            return;
+
+        case 10:
+            TB3_CCR4_RED();
+            return;
+
+        case 12:
+            TB3_CCR5_GREEN();
+            return;
+
+        case 14:
+            TB3_CCR6_BLUE();
+            return;
     }
 }
