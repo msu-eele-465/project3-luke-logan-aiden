@@ -8,6 +8,9 @@ The main C file consists of initializations of ports that we use and the unlock 
 ![Picture](Proj3-Main.svg)
 
 
+**Circuit Diagram**: 
+![Picture](Proj3-Circuit-Diagram.svg)
+
 
 
 The Keypad utilized a header file with functions that read the columns and rows of the keypad and which key was being pressed to compare against the correct passcode in order to decide whether or not to open. 
